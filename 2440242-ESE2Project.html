@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elegant Interiors</title>
+<style>
+/* Universal */
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
+body {
+background: url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1600&q=80') no-repeat center center fixed;
+background-size: cover;
+color: #fff;
+line-height: 1.6;
+position: relative;
+}
+body::before {
+content: "";
+position: fixed;
+top:0; left:0;
+width:100%; height:100%;
+background: rgba(0,0,0,0.5); /* Overlay */
+z-index: -1;
+}
+
+/* Header */
+header {
+text-align: center;
+padding: 60px 20px;
+cursor: pointer;
+}
+header h1 { font-size: 3rem; margin-bottom: 10px; }
+header p { font-size: 1.3rem; font-style: italic; }
+
+/* Navigation */
+nav {
+background-color: rgba(44,62,80,0.9);
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+padding: 12px 0;
+}
+nav a {
+color: white;
+text-decoration: none;
+margin: 0 18px;
+font-weight: bold;
+font-size: 1.1rem;
+transition: 0.3s;
+}
+nav a:hover { color: #48a9a6; text-decoration: underline; }
+
+/* Sections */
+section { padding: 50px 20px; max-width: 1200px; margin: auto; opacity: 0; transform: translateY(30px); transition: 1s ease; background: rgba(255,255,255,0.85); border-radius: 12px; color: #2c3e50; }
+section.visible { opacity: 1; transform: translateY(0); }
+h2 { color: #2c3e50; border-bottom: 3px solid #48a9a6; display: inline-block; margin-bottom: 25px; padding-bottom: 5px; }
+
+/* About */
+#about p { text-align: center; font-size:1.2rem; margin:20px auto; max-width:800px; }
+#special { color: #e67e22; font-weight: bold; }
+
+/* Buttons */
+button {
+  background: #48a9a6;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin: 5px;
+  transition: 0.3s;
+}
+button:hover { background: #3b8c89; transform: scale(1.05); }
+
+/* Gallery */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+.gallery img {
+  width: 100%;
+  max-width: 300px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+.gallery img:hover { transform: scale(1.05); box-shadow: 0 12px 25px rgba(0,0,0,0.3); }
+
+/* Modal */
+#modal { display: none; position: fixed; z-index: 100; padding-top: 60px; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.9); }
+#modal img { margin:auto; display:block; max-width:90%; max-height:80%; border-radius:12px; }
+#modal span { position:absolute; top:20px; right:35px; color:#f1f1f1; font-size:40px; font-weight:bold; cursor:pointer; transition:0.3s; }
+#modal span:hover { color:#48a9a6; }
+
+/* Services */
+.services { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+.service-card { background:white; border-radius:12px; padding:20px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center; flex:1 1 250px; transition: transform 0.3s, box-shadow 0.3s; }
+.service-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.2); }
+.service-card h3 { margin-bottom:10px; color:#2c3e50; }
+.service-card p { font-size:1rem; margin-bottom:10px; }
+
+/* Table */
+table { width:100%; border-collapse: collapse; margin-top:25px; }
+th, td { padding:12px; text-align:center; border:1px solid #ccc; }
+th { background: #2c3e50; color:white; }
+tr:nth-child(even){ background:#f9f9f9; }
+
+/* Lists */
+ul, ol, dl { margin:20px 0; padding-left:30px; font-size:1.1rem; }
+ul li { margin:10px 0; padding:10px 15px; border-radius:8px; color:white; }
+ul li:nth-child(1){ background:#48a9a6; }
+ul li:nth-child(2){ background:#e67e22; }
+ul li:nth-child(3){ background:#2c3e50; }
+ol li { margin:10px 0; padding:8px 12px; border-left:5px solid #48a9a6; background:#f1f1f1; border-radius:5px; }
+dl dt { font-weight:bold; color:#48a9a6; margin-top:10px; }
+dl dd { margin-left:20px; margin-bottom:10px; }
+
+/* Contact Section */
+#contact div { display:flex; flex-wrap:wrap; gap:40px; justify-content:center; }
+#contact .details { flex:1 1 300px; background:#48a9a6; color:white; padding:25px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+#contact form { flex:1 1 400px; background:white; color:#2c3e50; padding:25px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+#contact input, #contact textarea, #contact select { width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; }
+#contact button { width:100%; background:linear-gradient(135deg,#48a9a6,#2c3e50); color:white; }
+
+/* Footer */
+footer { background: rgba(44,62,80,0.9); color:white; text-align:center; padding:25px 10px; margin-top:40px; }
+
+/* Responsive */
+@media(max-width:768px){ nav a{ margin:10px; font-size:1rem; } .gallery img{ max-width:90%; } .service-card{ flex:1 1 100%; } #contact div{ flex-direction:column; } }
+</style>
+</head>
+<body>
+
+<header onclick="alert('Welcome to Elegant Interiors!')">
+<h1>Elegant Interiors</h1>
+<p>Transforming Spaces, Creating Dreams</p>
+</header>
+
+<nav>
+  <a href="#about">About Us</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#services">Services</a>
+  <a href="#projects">Top Projects</a>
+  <a href="#lists">Our Values</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="about">
+<h2>About Us</h2>
+<p>Welcome to <b>Elegant Interiors</b>! We specialize in <i>modern interior design</i>, blending creativity with functionality. 
+Our team ensures that <u>every detail matters</u> and every project speaks luxury. <span id="special">Your dream home</span> is just a design away!</p>
+<p>With over a decade of experience, we have transformed hundreds of residential and commercial spaces. 
+Our designers work closely with clients to ensure every design is unique and personalized.</p>
+<p>We focus on sustainable and innovative solutions, incorporating the latest trends while maintaining timeless elegance. 
+From consultation to execution, we handle every step with precision and passion.</p>
+<p style="text-align:center;">
+<button onclick="alert('Contact us for a free consultation!')">Get a Free Consultation</button>
+<button onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">View Gallery</button>
+<button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+</p>
+</section>
+
+<section id="gallery">
+<h2>Our Gallery</h2>
+<div class="gallery">
+ <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80" alt="Living Room">
+ <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80" alt="Bedroom">
+ <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800&q=80" alt="Kitchen">
+ <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" alt="Office">
+ <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Dining Room">
+ <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&q=80" alt="Study Room">
+</div>
+</section>
+
+<div id="modal">
+  <span onclick="closeModal()">&times;</span>
+  <img id="modal-img">
+</div>
+
+<section id="services">
+<h2>Our Services</h2>
+<div class="services">
+<div class="service-card">
+<h3>Residential Design</h3>
+<p>Tailored designs for luxurious homes.</p>
+<p><b>Price:</b> ₹2,00,000 - ₹8,00,000</p>
+</div>
+<div class="service-card">
+<h3>Commercial Design</h3>
+<p>Functional designs for offices & shops.</p>
+<p><b>Price:</b> ₹5,00,000 - ₹15,00,000</p>
+</div>
+<div class="service-card">
+<h3>Renovation</h3>
+<p>Upgrade and remodel your spaces.</p>
+<p><b>Price:</b> ₹3,00,000 - ₹12,00,000</p>
+</div>
+</div>
+</section>
+
+<section id="projects">
+<h2>Top Projects</h2>
+<table>
+<tr><th>Project</th><th>Location</th><th>Completed</th></tr>
+<tr><td>Modern Villa</td><td>Mumbai</td><td>2024</td></tr>
+<tr><td>Office Space</td><td>Bengaluru</td><td>2023</td></tr>
+<tr><td>Luxury Apartment</td><td>Delhi</td><td>2025</td></tr>
+<tr><td>Beach House</td><td>Goa</td><td>2022</td></tr>
+</table>
+</section>
+
+<section id="lists">
+<h2>Our Core Values</h2>
+<ul>
+ <li>Creativity - We craft unique designs tailored for every client.</li>
+ <li>Functionality - Designs that are practical & comfortable.</li>
+ <li>Client Satisfaction - Your happiness is our top priority.</li>
+</ul>
+<ol>
+ <li>Consultation</li>
+ <li>Design & Planning</li>
+ <li>Execution</li>
+</ol>
+<dl>
+ <dt>Innovation</dt>
+ <dd>We constantly explore modern trends to deliver fresh concepts.</dd>
+ <dt>Sustainability</dt>
+ <dd>Eco-friendly solutions that reduce environmental impact.</dd>
+ <dt>Attention to Detail</dt>
+ <dd>Every corner, color, and texture is carefully considered.</dd>
+</dl>
+</section>
+
+<section id="contact">
+<h2>Contact Us</h2>
+<div style="display:flex; flex-wrap:wrap; gap:40px; justify-content:center;">
+
+<!-- Contact Details Card -->
+<div class="details">
+<h3>Get in Touch</h3>
+<p><b>Phone:</b> +91 9106131121</p>
+<p><b>Email:</b> contact@elegantinteriors.com</p>
+<p><b>Address:</b> 123, Ambaji Market, Surat, India</p>
+<p><b>Working Hours:</b> Mon - Sat, 9AM - 6PM</p>
+</div>
+
+<!-- Modern Form -->
+<form action="submit.php" method="post" style="flex:1 1 400px;">
+<div class="form-group">
+<input type="text" id="name" name="name" placeholder=" " required>
+<label for="name">Your Name</label>
+</div>
+<div class="form-group">
+<input type="email" id="email" name="email" placeholder=" " required>
+<label for="email">Your Email</label>
+</div>
+<div class="form-group">
+<input type="text" id="subject" name="subject" placeholder=" " required>
+<label for="subject">Subject</label>
+</div>
+<div class="form-group">
+<select id="inquiry" name="inquiry" required>
+<option value="" disabled selected>Select Inquiry Type</option>
+<option value="Residential">Residential Design</option>
+<option value="Commercial">Commercial Design</option>
+<option value="Renovation">Renovation</option>
+<option value="General">General Inquiry</option>
+</select>
+</div>
+<div class="form-group">
+<textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+<label for="message">Your Message</label>
+</div>
+<button type="submit">Send Message</button>
+</form>
+
+</div>
+</section>
+
+<style>
+/* Modern Form Styles */
+form { background:white; color:#2c3e50; padding:30px; border-radius:12px; box-shadow:0 8px 25px rgba(0,0,0,0.15); }
+.form-group { position: relative; margin-bottom: 20px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 15px 12px; border-radius:8px; border:1px solid #ccc; outline:none; font-size:1rem;
+}
+.form-group label {
+  position: absolute; top:50%; left:15px; transform: translateY(-50%); background:white; padding:0 5px;
+  color:#999; pointer-events:none; transition:0.3s all;
+}
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label {
+  top: -10px; left:10px; font-size:0.85rem; color:#48a9a6;
+}
+textarea { resize: none; }
+button { width:100%; padding:15px; border:none; border-radius:8px; background: linear-gradient(135deg,#48a9a6,#2c3e50); color:white; font-size:1.1rem; cursor:pointer; transition:0.3s; }
+button:hover { transform: scale(1.05); background: linear-gradient(135deg,#3b8c89,#2c3e50); }
+</style>
+
+
+<footer>
+<p>&copy; 2025 Elegant Interiors. All Rights Reserved.</p>
+<p id="date"></p>
+</footer>
+
+<script>
+
+//Show success/error message
+const urlParams = new URLSearchParams(window.location.search);
+const status = urlParams.get("status");
+const msg = urlParams.get("msg");
+
+if (status && msg) {
+const responseDiv = document.getElementById("response-message");
+responseDiv.innerText = decodeURIComponent(msg);
+responseDiv.style.padding = "10px";
+responseDiv.style.marginBottom = "15px";
+responseDiv.style.borderRadius = "8px";
+responseDiv.style.fontWeight = "bold";
+if (status === "success") {
+responseDiv.style.backgroundColor = "#d4edda";
+responseDiv.style.color = "#155724";
+responseDiv.style.border = "1px solid #c3e6cb";
+} else {
+responseDiv.style.backgroundColor = "#f8d7da";
+responseDiv.style.color = "#721c24";
+responseDiv.style.border = "1px solid #f5c6cb";
+}
+}
+
+// Fade-in sections
+window.addEventListener('scroll', () => {
+document.querySelectorAll('section').forEach(section => {
+if(section.getBoundingClientRect().top < window.innerHeight - 100){
+section.classList.add('visible');
+}
+});
+});
+
+// Gallery modal
+const modal = document.getElementById('modal');
+const modalImg = document.getElementById('modal-img');
+document.querySelectorAll('.gallery img').forEach(img => {
+img.onclick = () => {
+modal.style.display='block';
+modalImg.src=img.src;
+}
+});
+function closeModal(){ modal.style.display='none'; }
+
+// JS Example: Variables, Operators
+let basePrice=200000; let tax=0.18; let total=basePrice+(basePrice*tax);
+if(total>250000){ console.log("High budget project"); } else { console.log("Affordable project"); }
+
+// Arrays & Loop
+let servicesArr=["Residential","Commercial","Renovation"];
+for(let i=0;i<servicesArr.length;i++){ console.log("Service: "+servicesArr[i]); }
+
+// Objects
+let designer={name:"Sophia",role:"Lead Designer",greet:function(){ console.log("Welcome "+this.name); }};
+designer.greet();
+
+// Date
+document.getElementById('date').innerText = "Today's Date: "+new Date().toLocaleDateString();
+
+// Form handling with cookie
+function saveFormData(){
+let name=document.getElementById('name').value;
+document.cookie="username="+name+"; path=/; max-age=86400";
+alert("Thank you "+name+"! We will contact you soon.");
+return false;
+}
+</script>
+
+</body>
+</html>
+
